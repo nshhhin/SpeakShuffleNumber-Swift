@@ -35,10 +35,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBAction func tappedBtn(_ sender: Any) {
         let selectionNum = nums[currentIndex]
+        speak(text: String(selectionNum))
         selectionNumLabel.text = String(selectionNum)
         currentIndex = currentIndex + 1
         tableV.reloadData()
-        speak(text: String(selectionNum))
+
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,13 +48,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell")!
-        cell.textLabel?.text = String(currentIndex - indexPath.row) + "番目： " + String(nums[currentIndex - indexPath.row])
+        cell.textLabel?.text = String(currentIndex - indexPath.row) + "番目： " + String(nums[currentIndex - indexPath.row - 1])
         return cell
     }
 
     func speak(text: String){
+
+        var gobis = ["だよ", "です", "でした", "やんけ", "っす", "だわよ", "だってばよ", "だと思いました", "ですにーーの", "万1千", "億円ダウト"]
+        gobis.shuffle()
         // 話す内容をセット
-        let utterance = AVSpeechUtterance(string: text)
+        let utterance = AVSpeechUtterance(string: text + gobis[0])
         // 言語を日本に設定
         utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
         // 実行
